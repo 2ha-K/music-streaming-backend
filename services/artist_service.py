@@ -26,3 +26,5 @@ def get_artist_by_id(artist_id):
     conn.close()
     return row_to_dict(artist)
 
+# print(get_all_artists())
+# print(get_artist_by_id(7))
