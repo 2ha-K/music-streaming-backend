@@ -18,8 +18,7 @@ def get_playlists(userkey=-1, displaytrack=-1, offset=0):
     if (displaytrack==-1):
         cur.execute("select " \
         "p.p_playlistkey, p.p_name " \
-        "from playlist p where p.p_userkey = %s order by p.p_playlistkey limit %s offset %s" \
-        "order by p.p_playlistkey;", 
+        "from playlist p where p.p_userkey = %s order by p.p_playlistkey limit %s offset %s;", 
         (userkey, limit_num, offset,))
 
         userplaylists = cur.fetchall();
