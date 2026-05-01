@@ -18,12 +18,12 @@ def get_playlists(userkey="", displaytrack=None, offset=0):
     "p.p_playlistkey, p.p_name " \
     "from playlist p where p.p_userkey = %s t order by p_playlist limit %s offset %s;", 
     (userkey, limit_num, offset,))
-    tracks = cur.fetchall();
+    playlists = cur.fetchall();
 
     cur.close();
     conn.close();
 
-    return rows_to_dict(tracks);
+    return rows_to_dict(playlists);
 
 def create_playlist():
     pass
