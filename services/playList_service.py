@@ -31,7 +31,7 @@ def get_playlists(userkey=-1, displaytrack=-1, offset=0):
         cur.execute("select pt.pt_playlistkey, t.t_trackkey, t.t_title, a.a_name, t.t_album, t.t_duration" \
         " from playlisttrack pt join track t on t.t_trackkey = pt.pt_trackkey " \
         "join artist a on t.t_artistkey = a.a_artistkey " \
-        "where pt.pt_playlistkey = %s;", (displaytrack,))
+        "where pt.pt_playlistkey = %s order by pt.pt_trackadded;", (displaytrack,))
         playlist = cur.fetchall();
 
         cur.close();
