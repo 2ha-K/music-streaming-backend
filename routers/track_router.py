@@ -7,11 +7,7 @@ router = APIRouter(
 )
 
 @router.get("/")
-def get_tracks_start_api():
-    return get_tracks_offset(0)
-
-@router.get("/offset={track_offset}")
-def get_tracks_offset_api(track_offset: int):
+def get_tracks_api(track_offset: int = 0):
     result = get_tracks_offset(offset=track_offset)
     if not result:
         return {"state": "No tracks found", "tracks": []}
