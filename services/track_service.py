@@ -6,11 +6,11 @@
 from db import get_connection
 from utils.db_utils import rows_to_dict, row_to_dict
 
-def get_tracks_offset(offset=0, limit=100):
+def get_tracks_offset(offset=0):
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("select * from track limit %s offset %s;", (limit, offset,))
+    cur.execute("select * from track limit 100 offset %s;", (offset,))
     tracks = cur.fetchall();
 
     cur.close();
