@@ -4,7 +4,6 @@
 """
 from db import get_connection
 import psycopg2
-from utils.db_utils import rows_to_dict, row_to_dict
 from utils.auth import verify_password, hash_password
 
 def register(email, password, username, display_name, role="audience"):
