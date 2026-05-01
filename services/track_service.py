@@ -1,5 +1,5 @@
 """
-- get_tracks_offset(offset=0, limit=100)
+- get_tracks_offset(offset=0)
 - search_tracks()
 - get_track_by_id()
 """
@@ -18,8 +18,21 @@ def get_tracks_offset(offset=0):
 
     return rows_to_dict(tracks);
 
-def search_tracks(title=None, artist=None, album=None):
-    pass
+def search_tracks(title=None, artist=None, album=None, offset=0):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    clauses = []
+    params = []
+
+    if title:
+        clauses.append("title ILIKE %s")
+        params.append(f"{title}%")
+
+    cur.close();
+    conn.close();
+
+    return rows_to_dict();
 
 def get_track_by_id(trackKey):
     pass
