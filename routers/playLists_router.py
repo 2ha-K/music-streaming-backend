@@ -42,3 +42,9 @@ def add_track_to_playlist_api(
     playlist_key: int = -1, track_key: int = -1):
     result = add_track_to_playlist(playlistkey=playlist_key, trackkey=track_key)
     return {"result": result}
+
+@router.delete("/remove-from-playlist")
+def remove_track_from_playlist_api(
+    playlist_key: int = -1, track_key: int = -1):
+    result = remove_track_from_playlist(playlistkey=playlist_key, trackkey=track_key)
+    return {"result": result}
