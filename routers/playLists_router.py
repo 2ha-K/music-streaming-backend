@@ -7,8 +7,10 @@ router = APIRouter(
 )
 
 @router.get("/")
-def get_playlists_api(playlists_offset: int = 0):
-    result = get_playlists(offset=playlists_offset)
+def get_playlists_api(
+    playlists_offset: int = 0,
+    playlist_userkey: str = ""):
+    result = get_playlists(useykey=playlist_userkey, offset=playlists_offset)
     if not result:
         return {"state": "No tracks found", "tracks": []}
     return {"state": "Tracks found", "tracks": result}
