@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from services.track_service import get_tracks_offset, search_tracks, get_track_by_id
 
 router = APIRouter(
-    prefix="/track",
-    tags=["track"],
+    prefix="/tracks",
+    tags=["tracks"],
 )
 
 @router.get("/get_tracks")
@@ -27,6 +27,13 @@ def search_tracks_api(
     else:
         result = search_tracks(offset=track_offset)
 
+    if not result:
+        return {"state": "No tracks found", "tracks": []}
+    return {"state": "Tracks found", "tracks": result}
+
+@router.get("/{id}")
+def get_track_by_id_api(id: int = -1):
+    result = get_track_by_id(trackKey = id)
     if not result:
         return {"state": "No tracks found", "tracks": []}
     return {"state": "Tracks found", "tracks": result}
