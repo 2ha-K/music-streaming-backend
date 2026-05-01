@@ -9,8 +9,14 @@ router = APIRouter(
 @router.get("/")
 def get_playlists_api(
     playlists_offset: int = 0,
-    playlist_userkey: str = ""):
-    result = get_playlists(useykey=playlist_userkey, offset=playlists_offset)
+    playlist_userkey: int = -1):
+    result = get_playlists(userkey=playlist_userkey, offset=playlists_offset)
     if not result:
-        return {"state": "No tracks found", "tracks": []}
-    return {"state": "Tracks found", "tracks": result}
+        return {"state": "No playlists found", "playlists": []}
+    return {"state": "Playlists found", "playlists": result}
+
+@router.post("/create")
+def create_playlists_api(
+    playlist_userkey: int = -1, playlist_name: str = ""):
+    result = create_playlist(userkey=playlist_userkey, playlistname=playlist_name)
+    return {"result": result}
