@@ -16,7 +16,13 @@ def get_playlists_api(
     return {"state": "Playlists found", "playlists": result}
 
 @router.post("/create")
-def create_playlists_api(
+def create_playlist_api(
     playlist_userkey: int = -1, playlist_name: str = ""):
     result = create_playlist(userkey=playlist_userkey, playlistname=playlist_name)
+    return {"result": result}
+
+@router.delete("/delete")
+def delete_playlist_api(
+    playlist_userkey: int = -1, playlist_key: int = -1):
+    result = delete_playlist(userkey=playlist_userkey, playlistkey=playlist_key)
     return {"result": result}

@@ -57,8 +57,24 @@ def create_playlist(userkey=-1, playlistname=""):
         cur.close()
         conn.close()
 
-def delete_playlist():
-    pass
+def delete_playlist(userkey=-1, playlistkey=-1):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            "DELETE FROM playlist WHERE p_userkey = %s AND p_playlistkey = %s",
+            (userkey, playlistkey)
+        )
+        conn.commit()
+        if cur.rowcount == 0:
+            return {"message": f"Playlist {playlistkey} not found in user {userkey} playlist"}
+        return {"message": f"Playlist {playlistkey} removed from user {userkey} playlist"}
+    except Exception as e:
+        conn.rollback()
+        return {"error": str(e)}
+    finally:
+        cur.close()
+        conn.close()
 
 def add_track_to_playlist():
     pass
