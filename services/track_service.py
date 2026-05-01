@@ -12,7 +12,7 @@ def get_tracks_offset(offset=0):
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("select * from track order by t_trackkey limit %s offset %s;", (limit_num, offset,))
+    cur.execute("select t.t_trackkey, t.t_title, a.a_name, t.t_album, t.t_duration, t.t_genre, t.t_description, t.t_uri from track t join artist a on t.t_artistkey = a.a_artistkey order by t_trackkey limit %s offset %s;", (limit_num, offset,))
     tracks = cur.fetchall();
 
     cur.close();
