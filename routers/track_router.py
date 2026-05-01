@@ -6,7 +6,7 @@ router = APIRouter(
     tags=["tracks"],
 )
 
-@router.get("/get_tracks")
+@router.get("/")
 def get_tracks_api(track_offset: int = 0):
     result = get_tracks_offset(offset=track_offset)
     if not result:
