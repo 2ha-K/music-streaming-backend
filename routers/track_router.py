@@ -6,9 +6,27 @@ router = APIRouter(
     tags=["track"],
 )
 
-@router.get("/")
+@router.get("/get_tracks")
 def get_tracks_api(track_offset: int = 0):
     result = get_tracks_offset(offset=track_offset)
+    if not result:
+        return {"state": "No tracks found", "tracks": []}
+    return {"state": "Tracks found", "tracks": result}
+
+@router.get("/search")
+def search_tracks_api(
+    track_title: str = "",
+    track_artist: str = "",
+    track_album: str = "",
+    track_offset: int = 0
+):
+    if track_title or track_artist or track_album:
+        result = search_tracks(
+            title=track_title, artist=track_artist, album=track_album, offset=track_offset
+            )
+    else:
+        result = search_tracks(offset=track_offset)
+
     if not result:
         return {"state": "No tracks found", "tracks": []}
     return {"state": "Tracks found", "tracks": result}
