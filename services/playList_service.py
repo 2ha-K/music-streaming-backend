@@ -76,8 +76,33 @@ def delete_playlist(userkey=-1, playlistkey=-1):
         cur.close()
         conn.close()
 
-def add_track_to_playlist():
-    pass
+def add_track_to_playlist(playlistkey=-1, trackkey=-1):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        cur.execute(
+            "INSERT INTO playlisttrack (pt_playlistkey, pt_trackkey) VALUES (%s, %s)",
+            (playlistkey, trackkey)
+        )
+
+        conn.commit()
+        return {"message": f"Playlist({playlistkey}) added track({trackkey})"}
+    except psycopg2.errors.UniqueViolation:
+        conn.rollback()
+        return {"error": f"Playlist{playlistkey}) already contains track({trackkey})"}
+    except psycopg2.errors.NotNullViolation:
+        conn.rollback()
+        return {"error": "Missing required field"}
+    except psycopg2.Error as e:
+        conn.rollback()
+        return {"error": str(e)}
+    except Exception as e:
+        conn.rollback()
+        return {"error": str(e)}
+    finally:
+        cur.close()
+        conn.close()
 
 def remove_track_from_playlist():
     pass
