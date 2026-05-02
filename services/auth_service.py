@@ -14,15 +14,15 @@ def register(email, password, username, display_name, role="audience"):
             "INSERT INTO users (u_email, u_userpassword_hash, u_username, u_displayname, u_role) VALUES (%s, %s, %s, %s, %s) RETURNING u_userkey",
             (email, hash_password(password), username, display_name, role)
         )
+        userkey = cur.fetchone()["u_userkey"]
 
         if role == "artist":
-            user_id = cur.fetchone()["u_userkey"]
             cur.execute(
                 "INSERT INTO artist (a_name, a_userkey) VALUES (%s, %s)",
-                (username, user_id)
+                (username, userkey)
             )
         conn.commit()
-        return {"success": True}
+        return {"success": True, "userkey": userkey}
     except psycopg2.errors.UniqueViolation:
         conn.rollback()
         return {"error" : "Email or Username or ArtistName already exists"}
@@ -42,7 +42,7 @@ def register(email, password, username, display_name, role="audience"):
 def login(email, password):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("select u_userpassword_hash from users where u_email = %s", (email,))
+    cur.execute("select u_userkey, u_userpassword_hash from users where u_email = %s", (email,))
     row = cur.fetchone()
     cur.close()
     conn.close()
@@ -50,7 +50,7 @@ def login(email, password):
         return {"success": False, "error": "Email does not exist"}
     hashed_password = row["u_userpassword_hash"]
     if verify_password(password, hashed_password):
-        return {"success": True}
+        return {"success": True, "userkey": row["u_userkey"]}
     else:
         return {"success": False, "error": "Incorrect password"}
 
